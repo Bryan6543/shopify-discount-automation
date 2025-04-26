@@ -25,7 +25,7 @@ app.get("/", (_req: Request, res: Response) => {
   res.send("👋 Hello from your TypeScript + Express backend!");
 });
 
-// ✅ Load all emails from JSON file
+// Load all emails from JSON file
 app.get("/api/emails", (_req, res) => {
   try {
     const data = fs.readFileSync(EMAILS_PATH, "utf-8");
@@ -36,7 +36,7 @@ app.get("/api/emails", (_req, res) => {
   }
 });
 
-// ✅ Add a new email
+// Add a new email
 app.post("/api/emails", (req, res) => {
   const { email } = req.body;
   if (!email)
@@ -61,7 +61,7 @@ app.post("/api/emails", (req, res) => {
   }
 });
 
-// ✅ Delete an email
+// Delete an email
 app.delete("/api/emails/:email", (req: Request, res: Response) => {
   const { email } = req.params;
   try {
@@ -82,10 +82,10 @@ app.delete("/api/emails/:email", (req: Request, res: Response) => {
 });
 
 
-// ✅ Parse command only (no creation)
+// Parse command only (no creation)
 app.post("/api/parse", async (req: Request, res: Response) => {
   const { command } = req.body;
-  console.log("🧠 Parsing command only:", command);
+  console.log("Parsing command only:", command);
 
   try {
     const parsed = await parseDiscountCommand(command);
@@ -122,7 +122,7 @@ app.get("/api/collections", async (_req: Request, res: Response) => {
   }
 });
 
-// ✅ Get created discounts
+// Get created discounts
 app.get("/api/discounts", async (_req: Request, res: Response) => {
   try {
     const discounts = await fetchDiscounts();
@@ -132,7 +132,9 @@ app.get("/api/discounts", async (_req: Request, res: Response) => {
   }
 });
 
-// ✅ Create Shopify discount and send email to all saved emails
+
+
+// Create Shopify discount and send email to all saved emails
 app.post("/api/command", async (req: Request, res: Response) => {
   const { command } = req.body;
   console.log("📩 Received command:", command);
@@ -169,20 +171,15 @@ app.post("/api/command", async (req: Request, res: Response) => {
       });
     }
 
-    // ✅ Load all recipient emails from file
-    const filePath = path.join(__dirname, "../data/emails.json");
-    const { emails } = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-
-    const subject = `${parsed.discount} OFF on ${parsed.product} – Limited Time Only!`;
-    const body = `
+    // Email 
+    const emailSubject = `${parsed.discount} OFF on ${parsed.product} – Limited Time Only!`;
+    const emailBody = `
       <h2>🎉 New Discount Available!</h2>
-      <p>We're offering <strong>${parsed.discount}</strong> off on <strong>${
-      parsed.product
-    }</strong>!</p>
+      <p>We're offering <strong>${parsed.discount}</strong> off on <strong>${parsed.product}</strong>!</p>
       <p>🗓️ <strong>Valid From:</strong> ${parsed.startDate} <br>
          🗓️ <strong>To:</strong> ${parsed.endDate}</p>
       <p>💸 ${
-        parsed.discountType === "code" && "discount_code" in shopifyResult
+        parsed.discountType === 'code' && 'discount_code' in shopifyResult
           ? `Use discount code: <strong>${shopifyResult.discount_code}</strong> at checkout!`
           : `This discount will be automatically applied at checkout.`
       }</p>
@@ -195,8 +192,10 @@ app.post("/api/command", async (req: Request, res: Response) => {
       <p>Enjoy,</p>
       <p>Your Store Team</p>
     `;
-
-    await sendDiscountEmail(emails, subject, body);
+    
+ 
+    await sendDiscountEmail(emailSubject, emailBody);
+    
 
     res.json({
       success: true,
@@ -214,10 +213,13 @@ app.post("/api/command", async (req: Request, res: Response) => {
   }
 });
 
+
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
-  console.log("Using token:", process.env.SHOPIFY_API_TOKEN);
+  console.log(`✅ Server running at http://localhost:${PORT}`);
 });
+
+
+//Status Checking 
 
 app.get("/api/status", async (_req: Request, res: Response) => {
   const statuses: { shopify: boolean; openai: boolean; mailjet: boolean } = {
@@ -226,7 +228,7 @@ app.get("/api/status", async (_req: Request, res: Response) => {
     mailjet: false,
   };
 
-  // 🔍 Check Shopify (basic auth test)
+  // Shopify Status
   try {
     const response = await fetch(
       `${process.env.SHOPIFY_STORE_URL}/admin/api/2023-10/shop.json`,
@@ -239,7 +241,7 @@ app.get("/api/status", async (_req: Request, res: Response) => {
     statuses.shopify = response.ok;
   } catch {}
 
-  // 🔍 Check OpenAI
+  // Open Ai Status
   try {
     const openaiRes = await fetch("https://api.openai.com/v1/models", {
       headers: {
@@ -249,7 +251,7 @@ app.get("/api/status", async (_req: Request, res: Response) => {
     statuses.openai = openaiRes.ok;
   } catch {}
 
-  // 🔍 Check Mailjet
+  // Mailjet Status
   try {
     const mailjetTest = await fetch("https://api.mailjet.com/v3/REST/user", {
       headers: {

@@ -39,7 +39,7 @@ export async function fetchDiscounts(): Promise<any[]> {
           );
           code = codeRes.data.discount_codes[0]?.code || null;
         } catch (_) {
-          // May not exist (automatic)
+          
         }
 
         return {

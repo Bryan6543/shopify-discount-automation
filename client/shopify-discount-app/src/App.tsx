@@ -190,11 +190,17 @@ function App() {
 
       {/* Project Ownder Details */}
       <div className="project_owner_details">
-        <img className="middlesex_logo" src="/Middlesex.svg" alt="middlesex logo" />
-        <h3>MDX ID: M01057562</h3>
-        <h3>Name: D T N Brayan Fernando</h3>
-        <a href="">Github Repo.</a>
-
+        <img
+          className="middlesex_logo"
+          src="/Middlesex.svg"
+          alt="middlesex logo"
+        />
+        <h4>MDX ID: M01057562</h4>
+        <h4>Name: D.T.N Brayan Fernando</h4>
+        <h4>Email: fnirmal802gmail.com</h4>
+        <a href="https://github.com/Bryan6543/shopify-discount-automation">
+          Github Repo.
+        </a>
       </div>
       <div>
         {/* Command input */}
