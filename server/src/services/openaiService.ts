@@ -1,12 +1,12 @@
 import { OpenAI } from "openai";
 
-// Define your expected return structure
 export interface ParsedCommand {
   discount: string;
   product: string;
   startDate: string;
   endDate: string;
-  targetGroup: string;
+  discountType: "code" | "automatic"; 
+  collection?: string;                
 }
 
 const openai = new OpenAI({
@@ -20,8 +20,8 @@ export async function parseDiscountCommand(
 
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo-1106", // or "gpt-4-1106-preview" if you prefer
-      response_format: { type: "json_object" }, // ✅ FIXED
+      model: "gpt-3.5-turbo-1106",
+      response_format: { type: "json_object" },
       messages: [
         {
           role: "system",
@@ -29,12 +29,13 @@ export async function parseDiscountCommand(
 You are a helpful assistant. Extract structured discount data from the user's message and return a JSON object with the following properties:
 - discount (e.g. "25%")
 - product (e.g. "jackets")
-- startDate (YYYY-MM-DD format)
-- endDate (YYYY-MM-DD format)
-- targetGroup (e.g. "newsletter subscribers")
+- startDate (in YYYY-MM-DD format)
+- endDate (in YYYY-MM-DD format)
+- discountType: either "code" or "automatic" depending on what the user says
+- collection: if user specifies a collection or category like "hoodies" or "summer collection", include it
 
-Return only a JSON object with those fields.
-        `,
+Return only the JSON object. Do not include any explanations or formatting.
+          `,
         },
         {
           role: "user",
