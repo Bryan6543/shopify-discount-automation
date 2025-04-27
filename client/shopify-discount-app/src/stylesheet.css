@@ -17,6 +17,10 @@
   font-weight: bold;
 }
 
+.list_gap{
+  padding-bottom: 10px;
+}
+
 .margin-left{
 margin-left: 10px;
 margin-bottom: 10px;
@@ -71,9 +75,7 @@ margin-bottom: 10px;
     position: fixed;
     top: 0;
     left: 0;
-    /* color: white; */
     padding: 0 20px 50px 20px;
-    /* background: rgb(0, 0, 0); */
     border: 2px black solid;
     border-radius: 10px;
     margin: 10px 0 0 10px;
@@ -94,8 +96,6 @@ margin-bottom: 10px;
   list-style: none;
 }
 
-.command_container {
-}
 
 .command_container > input {
   width: 60vw;
@@ -181,10 +181,6 @@ margin-bottom: 10px;
 
 .email_list_container > h2 {
   font-size: 2rem;
-}
-
-.list_gap{
-    padding-bottom: 10px;
 }
 
 .email_list_container > div > input{

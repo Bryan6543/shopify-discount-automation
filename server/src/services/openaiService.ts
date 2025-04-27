@@ -16,7 +16,7 @@ const openai = new OpenAI({
 export async function parseDiscountCommand(
   command: string
 ): Promise<ParsedCommand | null> {
-  console.log("🧠 Sending command to OpenAI...");
+  console.log("Sending command to OpenAI...");
 
   try {
     const response = await openai.chat.completions.create({
@@ -46,11 +46,11 @@ Return only the JSON object. Do not include any explanations or formatting.
     });
 
     const parsed = response.choices[0].message?.content;
-    console.log("📨 Raw OpenAI response:", parsed);
+    console.log("OpenAI response:", parsed);
 
     return parsed ? JSON.parse(parsed) : null;
   } catch (err: any) {
-    console.error("❌ Error while calling OpenAI:", err.message || err);
+    console.error("Error while calling OpenAI:", err.message || err);
     return null;
   }
 }

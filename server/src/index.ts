@@ -30,7 +30,7 @@ app.get("/api/emails", (_req, res) => {
   try {
     const data = fs.readFileSync(EMAILS_PATH, "utf-8");
     const json = JSON.parse(data);
-    res.json({ success: true, emails: json.recipients || [] }); // ✅ FIXED
+    res.json({ success: true, emails: json.recipients || [] }); 
   } catch (error) {
     res.status(500).json({ success: false, error: "Failed to read email list." });
   }
@@ -107,7 +107,7 @@ app.post("/api/parse", async (req: Request, res: Response) => {
   }
 });
 
-// ✅ Get Shopify collections
+// Get Shopify collections
 app.get("/api/collections", async (_req: Request, res: Response) => {
   try {
     const collections = await fetchCollections();

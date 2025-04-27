@@ -203,6 +203,7 @@ function App() {
         </a>
       </div>
       <div>
+        
         {/* Command input */}
         <div className="command_container">
           <h2>Ask AI to Create your Discount</h2>
@@ -247,9 +248,9 @@ function App() {
               <li>
                 <strong>End Date:</strong> {parsedDiscount.endDate}
               </li>
-              <li>
+              {/* <li>
                 <strong>Type:</strong> {parsedDiscount.type}
-              </li>
+              </li> */}
               {parsedDiscount.collection && (
                 <li>
                   <strong>Collection:</strong> {parsedDiscount.collection}

@@ -8,7 +8,7 @@ interface DiscountInput {
   discount: string;
   startDate: string;
   endDate: string;
-  collection?: string | null; // optional
+  collection?: string | null;
 }
 
 export async function fetchDiscounts(): Promise<any[]> {
@@ -67,7 +67,7 @@ export async function fetchDiscounts(): Promise<any[]> {
 const parseDiscountValue = (value: string) =>
   parseFloat(value.replace('%', '')) || 0;
 
-// 🔸 Shared helper to fetch collection ID from name
+// fetch collection
 async function getCollectionIdByName(name: string): Promise<number | null> {
   try {
     const response = await axios.get(
@@ -90,7 +90,7 @@ async function getCollectionIdByName(name: string): Promise<number | null> {
   }
 }
 
-// For one-time-use discount codes
+// For one time use discount codes
 export async function createShopifyDiscountCode(data: DiscountInput) {
   const { title, discount, startDate, endDate, collection } = data;
   const discountValue = parseDiscountValue(discount);
@@ -150,7 +150,7 @@ export async function createShopifyDiscountCode(data: DiscountInput) {
   };
 }
 
-//For automatic discounts (multi-use, no code)
+//For automatic discounts
 export async function createShopifyAutomaticDiscount(data: DiscountInput) {
   const { title, discount, startDate, endDate, collection } = data;
   const discountValue = parseDiscountValue(discount);
@@ -193,7 +193,7 @@ export async function createShopifyAutomaticDiscount(data: DiscountInput) {
   };
 }
 
-// Still useful for UI collection dropdowns if needed
+// dropdowns if needed
 export async function fetchCollections(): Promise<{ id: number; title: string;}[]> {
   try {
     const response = await axios.get(
